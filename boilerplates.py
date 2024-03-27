@@ -57,6 +57,9 @@ class Git:
             ->  track your files and changes in Git
         git commit -m "title" -m "description"
             ->  save your files in Git
+            ->  if you have problem with "Author identity unknown", type this:
+                ->  git config --global user.email "you@example.com"
+                ->  git config --global user.name "Your Name"
         git push
             -> Upload Git commits to a remote repo (GitHub)
         """
