@@ -30,12 +30,11 @@ Topics list:
 TO-DO LIST:
     1. Linked list class
     2. Binary Tree class
-        
-
 '''
 
 from collections import defaultdict, deque
 from typing import Generator, TypeAlias, Union, Optional
+
 
 class Git:
     def __init__(self) -> None:
@@ -43,6 +42,9 @@ class Git:
 
     def info(self) -> None:
         """
+        git init
+            ->  create a new repository in the current directory. The name
+                of repository is based of the name of current directory.
         git clone <name-of-the-repo>
             ->  bring a repository that is hosted on GitHub into a folder on
                 local machine
