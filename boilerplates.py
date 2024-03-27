@@ -37,6 +37,32 @@ TO-DO LIST:
 from collections import defaultdict, deque
 from typing import Generator, TypeAlias, Union, Optional
 
+class Git:
+    def __init__(self) -> None:
+        pass
+
+    def info(self) -> None:
+        """
+        git clone <name-of-the-repo>
+            ->  bring a repository that is hosted on GitHub into a folder on
+                local machine
+        git status
+            ->  check modified and untracked files
+        git pull
+            ->  if you have ".git" folder, which contains all information
+                required for version control, you can download all missing 
+                files from remote repository
+        git add (if you want to add all changes and untracked files,
+                use "git add .")
+            ->  track your files and changes in Git
+        git commit -m "title" -m "description"
+            ->  save your files in Git
+        git push
+            -> Upload Git commits to a remote repo (GitHub)
+        """
+        pass
+
+
 class Python:
     def __init__(self) -> None:
         self.x = 0 # some test variable without any real purpose, ignore
