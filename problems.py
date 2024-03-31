@@ -1,3 +1,4 @@
+from collections import deque, defaultdict
 from typing import Optional, TypeAlias
 ListNode: TypeAlias = list
 
@@ -47,9 +48,8 @@ Topics: Linked List, Recursion
 #         self.next = next
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        curr = head
-        prev = None
-        while curr is not None:
+        prev, curr = None, head
+        while curr:
             temp = curr.next
             curr.next = prev
             prev = curr
@@ -231,3 +231,91 @@ class BrowserHistory:
 # browserHistory.forward(2)                # You are in "linkedin.com", you cannot move forward any steps.
 # browserHistory.back(2)                   # You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
 # browserHistory.back(7)                   # You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
+    
+"""
+1700. Number of Students Unable to Eat Lunch
+Topics: Array, Stack, Queue, Simulation
+"""
+class Solution:
+    def countStudents(self, students: list[int], sandwiches: list[int]) -> int:
+        students_q = deque(students.copy())
+        sandwiches_q = deque(sandwiches.copy())
+        counter = len(students_q)
+        while students_q and sandwiches_q and counter > 0:
+            # print(students_q, sandwiches_q)
+            # print(counter)
+            if students_q[0] == sandwiches_q[0]:
+                students_q.popleft()
+                sandwiches_q.popleft()
+                counter = len(students_q)
+                continue
+            else:
+                temp = students_q.popleft()
+                students_q.append(temp)
+                counter -= 1
+        return len(students_q)
+
+# x = Solution()
+# y = x.countStudents(students=[1,1,0,0], sandwiches=[0,1,0,1])
+# # y = x.countStudents(students=[1,1,1,0,0,1], sandwiches=[1,0,0,0,1,1])
+# print(y)
+    
+"""
+225. Implement Stack using Queues
+Topics: Stack, Design, Queue
+"""
+class MyStack:
+    def __init__(self):
+        self.q = list()
+
+    def push(self, x: int) -> None:
+        return self.q.append(x)
+
+    def pop(self) -> int:
+        return self.q.pop()
+
+    def top(self) -> int:
+        return self.q[-1]
+
+    def empty(self) -> bool:
+        return False if bool(self.q) else True
+        
+# Your MyStack object will be instantiated and called as such:
+# obj = MyStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.empty()
+
+
+"""
+70. Climbing Stairs
+Topics: Math, Dynamic Programming, Memoization
+"""
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        first, second, ans = 1, 2, 1
+        if n == 2:
+            return 2
+        for _ in range(2,n):
+            ans = first + second
+            first = second
+            second = ans
+        return ans
+# 1, 2, 3, 5, 8, 13
+    
+"""
+509. Fibonacci Number
+Topics: Math, Dynamic Programming, Recursion, Memoization
+"""
+class Solution:
+    def __init__(self):
+        self.memo = dict()
+    def fib(self, n: int) -> int:
+        if n < 2:
+            return n
+        if n in self.memo:
+            return self.memo[n]
+        ans = self.fib(n-1)+self.fib(n-2)
+        self.memo[n] = ans
+        return ans
