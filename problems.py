@@ -1,8 +1,11 @@
+from typing import Optional, TypeAlias
+ListNode: TypeAlias = list
+
+
 """
 155. Min Stack
 Topics: Stack, Design
 """
-
 class MinStack:
     def __init__(self):
         self.main_stack = list()
@@ -32,3 +35,199 @@ class MinStack:
 # obj.pop()
 # param_3 = obj.top()
 # param_4 = obj.getMin()
+    
+"""
+206. Reverse Linked List
+Topics: Linked List, Recursion
+"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        curr = head
+        prev = None
+        while curr is not None:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+
+        return prev
+    
+"""
+21. Merge Two Sorted Lists
+Topics: Linked List, Recursion
+"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        # list1 and list2 ARE heads!
+        curr = head = ListNode()
+        while list1 and list2:
+            if list1.val < list2.val:
+                curr.next = list1
+                curr = list1
+                list1 = list1.next
+            else:
+                curr.next = list2
+                curr = list2
+                list2 = list2.next
+        if list1 or list2:
+            if list1:
+                curr.next = list1
+            else:
+                curr.next = list2
+        return head.next
+    
+
+"""
+707. Design Linked List
+Topics: Linked List, Design
+"""
+# Definition for double-linked list.
+# class ListNode:
+#     def __init__(self, val=0, prev=None, next=None):
+#         self.val = val
+#         self.prev = prev
+#         self.next = next
+class Node:
+    def __init__(self, val=0):
+        self.val = val
+        self.prev = None
+        self.next = None
+
+
+class MyLinkedList:
+    def __init__(self):
+        self.head = Node(0)
+        self.tail = Node(0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, index: int) -> int:
+        curr = self.head.next
+        while curr and index > 0:
+            curr = curr.next
+            index -= 1
+        if curr and curr != self.tail and index == 0:
+            return curr.val
+        else:
+            return -1
+
+    def addAtHead(self, val: int) -> None:
+        curr, prev, next = Node(val), self.head, self.head.next
+        prev.next = curr
+        next.prev = curr
+        curr.prev = prev
+        curr.next = next
+
+    def addAtTail(self, val: int) -> None:
+        curr, prev, next = Node(val), self.tail.prev, self.tail
+        prev.next = curr
+        next.prev = curr
+        curr.prev = prev
+        curr.next = next
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        curr = self.head.next
+        while curr and index > 0:
+            curr = curr.next
+            index -= 1
+        if curr and index == 0:
+            insert, prev, next = Node(val), curr.prev, curr
+            prev.next = insert
+            next.prev = insert
+            insert.prev = prev
+            insert.next = next
+
+    def deleteAtIndex(self, index: int) -> None:
+        curr = self.head.next
+        while curr and index > 0:
+            curr = curr.next
+            index -= 1
+        if curr and curr != self.tail and index == 0:
+            prev, next = curr.prev, curr.next
+            prev.next = next
+            next.prev = prev
+
+# Your MyLinkedList object will be instantiated and called as such:
+# obj = MyLinkedList()
+# param_1 = obj.get(index)
+# obj.addAtHead(val)
+# obj.addAtTail(val)
+# obj.addAtIndex(index,val)
+# obj.deleteAtIndex(index)
+            
+
+"""
+1472. Design Browser History
+Topics: Array, Linked List, Stack, Design, Doubly-Linked List, Data Stream
+"""
+class Node:
+    def __init__(self, val="", prev=None, next=None):
+        self.val = val
+        self.prev = prev
+        self.next = next
+
+
+class BrowserHistory:
+    def __init__(self, homepage: str):
+        self.position = Node(val=homepage)
+
+    def visit(self, url: str) -> None:
+        """
+        1. Visits url from the current page.
+        2. It clears up all the forward history.
+        """
+        self.position.next = Node(val=url, prev=self.position)
+        self.position = self.position.next 
+
+    def back(self, steps: int) -> str:
+        """
+        1. Move steps back in history.
+        2. If you can only return x steps in the history and steps > x,
+           you will return only x steps.
+        3. Return the current url after moving back in history at most steps
+        """
+        while self.position.prev and steps > 0:
+            self.position = self.position.prev
+            steps -= 1
+        return self.position.val
+
+    def forward(self, steps: int) -> str:
+        """
+        1. Move steps forward in history.
+        2. If you can only forward x steps in the history and steps > x,
+           you will forward only x steps.
+        3. Return the current url after forwarding in history at most steps
+        """
+        while self.position.next and steps > 0:
+            self.position = self.position.next
+            steps -= 1
+        return self.position.val
+
+# Your BrowserHistory object will be instantiated and called as such:
+# obj = BrowserHistory(homepage)
+# obj.visit(url)
+# param_2 = obj.back(steps)
+# param_3 = obj.forward(steps)
+    
+# Explanation:
+# browserHistory = BrowserHistory(homepage="leetcode.com")
+# browserHistory.visit("google.com")       # You are in "leetcode.com". Visit "google.com"
+# browserHistory.visit("facebook.com")     # You are in "google.com". Visit "facebook.com"
+# browserHistory.visit("youtube.com")      # You are in "facebook.com". Visit "youtube.com"
+# browserHistory.back(1)                   # You are in "youtube.com", move back to "facebook.com" return "facebook.com"
+# browserHistory.back(1)                   # You are in "facebook.com", move back to "google.com" return "google.com"
+# browserHistory.forward(1)                # You are in "google.com", move forward to "facebook.com" return "facebook.com"
+# browserHistory.visit("linkedin.com")     # You are in "facebook.com". Visit "linkedin.com"
+# browserHistory.forward(2)                # You are in "linkedin.com", you cannot move forward any steps.
+# browserHistory.back(2)                   # You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
+# browserHistory.back(7)                   # You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
