@@ -411,3 +411,20 @@ class Solution:
         if l2:
             tail.next = l2
         return dummy.next
+
+"""
+58. Length of Last Word
+Topics: String
+"""
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        ans = 0
+        for char in reversed(s):
+            if char.isalnum():
+                ans += 1
+                continue
+            elif char == " " and ans == 0:
+                continue
+            elif char == " " and ans != 0:
+                break
+        return ans
