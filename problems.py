@@ -319,3 +319,95 @@ class Solution:
         ans = self.fib(n-1)+self.fib(n-2)
         self.memo[n] = ans
         return ans
+    
+"""
+912. Sort an Array
+Topics: Array, Divide and Conquer, Sorting, Heap (Priority Queue)
+        Merge Sort, Bucket Sort, Radix Sort, Counting Sort
+"""
+class Solution:
+    def sortArray(self, nums: list[int]) -> list[int]:
+        # Merge in-place
+        def merge(nums, left, pivot, right):
+            # Copy the sorted left & right halfs to temp arrays
+            L = nums[left: pivot + 1]
+            R = nums[pivot + 1: right + 1]
+
+            i = 0 # index for L
+            j = 0 # index for R
+            k = left # index for nums
+
+            # Merge the two sorted halfs into the original array
+            while i < len(L) and j < len(R):
+                if L[i] <= R[j]:
+                    nums[k] = L[i]
+                    i += 1
+                else:
+                    nums[k] = R[j]
+                    j += 1
+                k += 1
+
+            # One of the halfs will have elements remaining
+            while i < len(L):
+                nums[k] = L[i]
+                i += 1
+                k += 1
+            while j < len(R):
+                nums[k] = R[j]
+                j += 1
+                k += 1
+
+        def merge_sort(nums, left, right):
+            if (right - left + 1) <= 1:
+                return nums
+
+            pivot = (left + right) // 2
+            merge_sort(nums, left, pivot)
+            merge_sort(nums, pivot+1, right)
+
+            merge(nums, left, pivot, right)
+
+        merge_sort(nums, left=0, right=len(nums)-1)
+        return nums
+    
+"""
+23. Merge k Sorted Lists
+Topics: Linked List, Divide and Conquer, Heap (Priority Queue), Merge Sort
+"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: list[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists or len(lists) == 0:
+            return None
+        while len(lists) > 1:
+            merged_lists = list()
+
+            for i in range(0, len(lists), 2):
+                l1 = lists[i]
+                l2 = lists[i+1] if (i+1) < len(lists) else None
+                merged_lists.append(self.merge_lists(l1, l2))
+            lists = merged_lists
+        return lists[0]
+
+    def merge_lists(self, l1, l2):
+        dummy = ListNode()
+        tail = dummy
+
+        while l1 and l2:
+            if l1.val < l2.val:
+                tail.next = l1
+                l1 = l1.next
+            else:
+                tail.next = l2
+                l2 = l2.next
+            tail = tail.next
+
+        if l1:
+            tail.next = l1
+        if l2:
+            tail.next = l2
+        return dummy.next
