@@ -519,3 +519,52 @@ class Solution:
             for _ in range(counter[i]):
                 nums[itr] = i
                 itr += 1
+
+
+"""
+704. Binary Search
+Topics: Array, Binary Search
+"""
+
+
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+
+        while left <= right:
+            pivot = (left + right) // 2
+            if nums[pivot] == target:
+                return pivot
+            elif nums[pivot] < target:
+                left = pivot + 1
+            else:
+                right = pivot - 1
+        return -1
+
+
+"""
+74. Search a 2D Matrix
+Topics: Array, Binary Search, Matrix
+"""
+
+
+class Solution:
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        row_length = len(matrix[0]) - 1
+        left, right = 0, row_length
+
+        current_row = 0
+        while left <= right and current_row < len(matrix):
+            if current_row == 0 and target < matrix[current_row][0]:
+                return False
+            elif target > matrix[current_row][row_length]:
+                current_row += 1
+            else:
+                pivot = (left + right) // 2
+                if matrix[current_row][pivot] == target:
+                    return True
+                elif matrix[current_row][pivot] < target:
+                    left = pivot + 1
+                else:
+                    right = pivot - 1
+        return False
