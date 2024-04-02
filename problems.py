@@ -1,5 +1,6 @@
 from collections import deque, defaultdict
 from typing import Optional, TypeAlias
+
 ListNode: TypeAlias = list
 
 
@@ -7,6 +8,8 @@ ListNode: TypeAlias = list
 155. Min Stack
 Topics: Stack, Design
 """
+
+
 class MinStack:
     def __init__(self):
         self.main_stack = list()
@@ -28,7 +31,8 @@ class MinStack:
 
     def getMin(self) -> int:
         print("Stack minimum value:\t{}".format(self.support_stack[-1]))
-        return self.support_stack[-1]        
+        return self.support_stack[-1]
+
 
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()
@@ -36,11 +40,13 @@ class MinStack:
 # obj.pop()
 # param_3 = obj.top()
 # param_4 = obj.getMin()
-    
+
 """
 206. Reverse Linked List
 Topics: Linked List, Recursion
 """
+
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -56,18 +62,23 @@ class Solution:
             curr = temp
 
         return prev
-    
+
+
 """
 21. Merge Two Sorted Lists
 Topics: Linked List, Recursion
 """
+
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
 class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+    def mergeTwoLists(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         # list1 and list2 ARE heads!
         curr = head = ListNode()
         while list1 and list2:
@@ -85,12 +96,14 @@ class Solution:
             else:
                 curr.next = list2
         return head.next
-    
+
 
 """
 707. Design Linked List
 Topics: Linked List, Design
 """
+
+
 # Definition for double-linked list.
 # class ListNode:
 #     def __init__(self, val=0, prev=None, next=None):
@@ -157,6 +170,7 @@ class MyLinkedList:
             prev.next = next
             next.prev = prev
 
+
 # Your MyLinkedList object will be instantiated and called as such:
 # obj = MyLinkedList()
 # param_1 = obj.get(index)
@@ -164,12 +178,14 @@ class MyLinkedList:
 # obj.addAtTail(val)
 # obj.addAtIndex(index,val)
 # obj.deleteAtIndex(index)
-            
+
 
 """
 1472. Design Browser History
 Topics: Array, Linked List, Stack, Design, Doubly-Linked List, Data Stream
 """
+
+
 class Node:
     def __init__(self, val="", prev=None, next=None):
         self.val = val
@@ -187,7 +203,7 @@ class BrowserHistory:
         2. It clears up all the forward history.
         """
         self.position.next = Node(val=url, prev=self.position)
-        self.position = self.position.next 
+        self.position = self.position.next
 
     def back(self, steps: int) -> str:
         """
@@ -213,12 +229,13 @@ class BrowserHistory:
             steps -= 1
         return self.position.val
 
+
 # Your BrowserHistory object will be instantiated and called as such:
 # obj = BrowserHistory(homepage)
 # obj.visit(url)
 # param_2 = obj.back(steps)
 # param_3 = obj.forward(steps)
-    
+
 # Explanation:
 # browserHistory = BrowserHistory(homepage="leetcode.com")
 # browserHistory.visit("google.com")       # You are in "leetcode.com". Visit "google.com"
@@ -231,11 +248,13 @@ class BrowserHistory:
 # browserHistory.forward(2)                # You are in "linkedin.com", you cannot move forward any steps.
 # browserHistory.back(2)                   # You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
 # browserHistory.back(7)                   # You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
-    
+
 """
 1700. Number of Students Unable to Eat Lunch
 Topics: Array, Stack, Queue, Simulation
 """
+
+
 class Solution:
     def countStudents(self, students: list[int], sandwiches: list[int]) -> int:
         students_q = deque(students.copy())
@@ -255,15 +274,18 @@ class Solution:
                 counter -= 1
         return len(students_q)
 
+
 # x = Solution()
 # y = x.countStudents(students=[1,1,0,0], sandwiches=[0,1,0,1])
 # # y = x.countStudents(students=[1,1,1,0,0,1], sandwiches=[1,0,0,0,1,1])
 # print(y)
-    
+
 """
 225. Implement Stack using Queues
 Topics: Stack, Design, Queue
 """
+
+
 class MyStack:
     def __init__(self):
         self.q = list()
@@ -279,7 +301,8 @@ class MyStack:
 
     def empty(self) -> bool:
         return False if bool(self.q) else True
-        
+
+
 # Your MyStack object will be instantiated and called as such:
 # obj = MyStack()
 # obj.push(x)
@@ -292,50 +315,60 @@ class MyStack:
 70. Climbing Stairs
 Topics: Math, Dynamic Programming, Memoization
 """
+
+
 class Solution:
     def climbStairs(self, n: int) -> int:
         first, second, ans = 1, 2, 1
         if n == 2:
             return 2
-        for _ in range(2,n):
+        for _ in range(2, n):
             ans = first + second
             first = second
             second = ans
         return ans
+
+
 # 1, 2, 3, 5, 8, 13
-    
+
 """
 509. Fibonacci Number
 Topics: Math, Dynamic Programming, Recursion, Memoization
 """
+
+
 class Solution:
     def __init__(self):
         self.memo = dict()
+
     def fib(self, n: int) -> int:
         if n < 2:
             return n
         if n in self.memo:
             return self.memo[n]
-        ans = self.fib(n-1)+self.fib(n-2)
+        ans = self.fib(n - 1) + self.fib(n - 2)
         self.memo[n] = ans
         return ans
-    
+
+
 """
 912. Sort an Array
 Topics: Array, Divide and Conquer, Sorting, Heap (Priority Queue)
         Merge Sort, Bucket Sort, Radix Sort, Counting Sort
 """
+
+
 class Solution:
     def sortArray(self, nums: list[int]) -> list[int]:
         # Merge in-place
         def merge(nums, left, pivot, right):
             # Copy the sorted left & right halfs to temp arrays
-            L = nums[left: pivot + 1]
-            R = nums[pivot + 1: right + 1]
+            L = nums[left : pivot + 1]
+            R = nums[pivot + 1 : right + 1]
 
-            i = 0 # index for L
-            j = 0 # index for R
-            k = left # index for nums
+            i = 0  # index for L
+            j = 0  # index for R
+            k = left  # index for nums
 
             # Merge the two sorted halfs into the original array
             while i < len(L) and j < len(R):
@@ -363,17 +396,20 @@ class Solution:
 
             pivot = (left + right) // 2
             merge_sort(nums, left, pivot)
-            merge_sort(nums, pivot+1, right)
+            merge_sort(nums, pivot + 1, right)
 
             merge(nums, left, pivot, right)
 
-        merge_sort(nums, left=0, right=len(nums)-1)
+        merge_sort(nums, left=0, right=len(nums) - 1)
         return nums
-    
+
+
 """
 23. Merge k Sorted Lists
 Topics: Linked List, Divide and Conquer, Heap (Priority Queue), Merge Sort
 """
+
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -388,7 +424,7 @@ class Solution:
 
             for i in range(0, len(lists), 2):
                 l1 = lists[i]
-                l2 = lists[i+1] if (i+1) < len(lists) else None
+                l2 = lists[i + 1] if (i + 1) < len(lists) else None
                 merged_lists.append(self.merge_lists(l1, l2))
             lists = merged_lists
         return lists[0]
@@ -412,10 +448,13 @@ class Solution:
             tail.next = l2
         return dummy.next
 
+
 """
 58. Length of Last Word
 Topics: String
 """
+
+
 class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         ans = 0
@@ -428,3 +467,55 @@ class Solution:
             elif char == " " and ans != 0:
                 break
         return ans
+
+
+"""
+215. Kth Largest Element in an Array
+Topics: Array, Divide and Conquer, Sorting, Heap (Priority Queue), Quickselect
+"""
+
+
+class Solution:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        # 1. Solution - using TimSort from standard library:
+        # nums.sort(reverse=True)
+
+        # for i in range(k):
+        #     ans = nums[i]
+        # return ans
+        # 2. Solution - using min_heap of size k
+        import heapq
+
+        heap = nums[:k]
+        heapq.heapify(heap)
+
+        for i in nums[k:]:
+            if i > heap[0]:
+                heapq.heappop(heap)
+                heapq.heappush(heap, i)
+        return heap[0]
+
+
+"""
+75. Sort Colors
+Topics: Array, Two Pointers, Sorting (Bucket Sort)
+"""
+
+
+class Solution:
+    def sortColors(self, nums: list[int]) -> None:
+        # Algorithm used: Bucket Sort
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        counter = [0, 0, 0]
+        for i in nums:
+            counter[i] += 1
+
+        print(counter)
+
+        itr = 0
+        for i in range(len(counter)):
+            for _ in range(counter[i]):
+                nums[itr] = i
+                itr += 1
