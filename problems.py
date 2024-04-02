@@ -1,3 +1,4 @@
+import math
 from collections import deque, defaultdict
 from typing import Optional, TypeAlias
 
@@ -568,3 +569,135 @@ class Solution:
                 else:
                     right = pivot - 1
         return False
+
+
+"""
+374. Guess Number Higher or Lower
+Topics: Binary Search, Interactive
+"""
+
+
+# The guess API is already defined for you.
+# @param num, your guess
+# @return -1 if num is higher than the picked number
+#          1 if num is lower than the picked number
+#          otherwise return 0
+# def guess(num: int) -> int:
+def guess(pivot):
+    secret_target = 5
+    if pivot > secret_target:
+        return -1
+    elif pivot < secret_target:
+        return 1
+    else:
+        return 0
+
+
+class Solution:
+    # def binary_search(self) -> int:
+    #     pass
+
+    def guessNumber(self, n: int) -> int:
+        left, right = 0, n
+
+        while left <= right:
+            pivot = (left + right) // 2
+            feedback = guess(pivot)
+            if (
+                feedback < 0
+            ):  # guess(pivot) return -1 if num (pivot) > target (picked number)
+                right = pivot - 1
+            elif (
+                feedback > 0
+            ):  # guess(pivot) return 1 if num (pivot) < target (picked number)
+                left = pivot + 1
+            else:
+                return pivot
+        return -1
+
+
+# guess_number = Solution()
+# print(guess_number.guessNumber(100))
+
+"""
+278. First Bad Version
+Topics: Binary Search, Interactive
+"""
+
+
+# The isBadVersion API is already defined for you.
+def isBadVersion(version: int) -> bool:
+    pass
+
+
+class Solution:
+    def firstBadVersion(self, n: int) -> int:
+        left, right = 0, n
+
+        if n == 1:
+            return 1
+        while left <= right:
+            pivot = (left + right) // 2
+            feedback = isBadVersion(pivot)
+            # print(f"ver. {pivot}. Is Bad version? {feedback}")
+            if feedback is True:
+                right = pivot
+            elif feedback is False:
+                left = pivot
+            # print("what happend to right?", right)
+            if (
+                isBadVersion(left) is False
+                and isBadVersion(right) is True
+                and left == (right - 1)
+            ):
+                return right
+
+
+"""
+205. Isomorphic Strings
+Topics: Hash Table, String
+"""
+
+
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        dict_s, dict_t = dict(), dict()
+        for i, j in zip(s, t):
+            if i not in dict_s.keys():
+                dict_s[i] = j
+            if j not in dict_t.keys():
+                dict_t[j] = i
+            if (i in dict_s.keys() or j in dict_t.keys()) and (
+                dict_s[i] != j or dict_t[j] != i
+            ):
+                return False
+        #     print(i, j)
+        # print(dict_s)
+        # print(dict_t)
+        return True
+
+
+"""
+875. Koko Eating Bananas
+Topics: Array, Binary Search
+"""
+
+
+class Solution:
+    def minEatingSpeed(self, piles: list[int], h: int) -> int:
+        piles.sort()
+        max_speed = piles[-1]
+        min_speed = 1
+        ans = max_speed
+
+        while min_speed <= max_speed:
+            pivot = (min_speed + max_speed) // 2
+            time = 0
+            for pile in piles:
+                time += math.ceil(pile / pivot)
+            if time <= h:
+                ans = min(ans, pivot)
+                max_speed = pivot - 1
+            else:
+                min_speed = pivot + 1
+        return ans
