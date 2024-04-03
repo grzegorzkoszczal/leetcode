@@ -701,3 +701,32 @@ class Solution:
             else:
                 min_speed = pivot + 1
         return ans
+
+
+"""
+28. Find the Index of the First Occurrence in a String
+Topics: Two Pointers, String, String Matching
+"""
+
+
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        ans = -1
+        flag = len(needle)
+        if needle not in haystack:
+            return ans
+        for idx, ch in enumerate(haystack):
+            if haystack[idx] == needle[0]:
+                ans = idx
+                for i in range(len(needle)):
+                    if haystack[idx + i] == needle[i]:
+                        print(haystack[i])
+                        flag -= 1
+                    else:
+                        ans = -1
+                        break
+                if flag == 0:
+                    return ans
+                else:
+                    flag = len(needle)
+        return ans
