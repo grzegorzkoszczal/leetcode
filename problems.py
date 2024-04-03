@@ -730,3 +730,41 @@ class Solution:
                 else:
                     flag = len(needle)
         return ans
+
+
+"""
+79. Word Search
+Topics: Array, String, Backtracking, Matrix
+"""
+
+
+class Solution:
+    def exist(self, board: list[list[str]], word: str) -> bool:
+        ROWS, COLS, memo = len(board), len(board[0]), set()
+
+        def dfs(r, c, idx):
+            if idx == len(word):
+                return True
+            if (
+                r not in range(ROWS)
+                or c not in range(COLS)
+                or (r, c) in memo
+                or word[idx] != board[r][c]
+            ):
+                return False
+
+            memo.add((r, c))
+            if (
+                dfs(r + 1, c, idx + 1)
+                or dfs(r - 1, c, idx + 1)
+                or dfs(r, c - 1, idx + 1)
+                or dfs(r, c + 1, idx + 1)
+            ):
+                return True
+            memo.remove((r, c))
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if dfs(r, c, idx=0):
+                    return True
+        return False
