@@ -3,6 +3,7 @@ from collections import deque, defaultdict
 from typing import Optional, TypeAlias
 
 ListNode: TypeAlias = list
+TreeNode: TypeAlias = list
 
 
 """
@@ -768,3 +769,38 @@ class Solution:
                 if dfs(r, c, idx=0):
                     return True
         return False
+
+
+"""
+700. Search in a Binary Search Tree
+Topics: Tree, Binary Search Tree, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        # 1. Solution - recursive
+        if not root:
+            return
+        if val < root.val:
+            return self.searchBST(root.left, val)
+        elif val > root.val:
+            return self.searchBST(root.right, val)
+        else:
+            return root
+
+        # 2. Solution - iterative
+        while root:
+            if val < root.val:
+                root = root.left
+            elif val > root.val:
+                root = root.right
+            else:
+                return root
+        return None
