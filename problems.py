@@ -804,3 +804,33 @@ class Solution:
             else:
                 return root
         return None
+
+
+"""
+701. Insert into a Binary Search Tree
+Topics: Tree, Binary Search Tree, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        old_root = root
+        while root:
+            if val < root.val and root.left:
+                root = root.left
+            elif val > root.val and root.right:
+                root = root.right
+            else:
+                if val < root.val:
+                    root.left = TreeNode(val)
+                    return old_root
+                else:
+                    root.right = TreeNode(val)
+                    return old_root
+        return TreeNode(val)
