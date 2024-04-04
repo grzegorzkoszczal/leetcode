@@ -873,3 +873,67 @@ class Solution:
                 root.val = leaf.val
                 root.right = self.deleteNode(root.right, leaf.val)
         return root
+
+
+"""
+94. Binary Tree Inorder Traversal
+Topics: Stack, Tree, Depth-First Search, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> list[int]:
+        if not root:
+            return []
+        left = self.inorderTraversal(root.left)
+        right = self.inorderTraversal(root.right)
+        return left + [root.val] + right  # inorder traversal
+        # return [root.val] + left + right # preorder traversal
+        # return left + right + [root.val] # postorder traversal
+
+
+"""
+1614. Maximum Nesting Depth of the Parentheses
+Topics: String, Stack
+"""
+
+
+class Solution:
+    def maxDepth(self, s: str) -> int:
+        temp, ans = 0, 0
+        for ch in s:
+            if ch == "(":
+                temp += 1
+            elif ch == ")":
+                temp -= 1
+            ans = max(ans, temp)
+        return ans
+
+
+"""
+230. Kth Smallest Element in a BST
+Topics: Tree, Depth-First Search, Binary Search Tree, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        def helper(root):
+            if not root:
+                return []
+            return helper(root.left) + [root.val] + helper(root.right)
+
+        ans = helper(root)
+        return ans[k - 1]
