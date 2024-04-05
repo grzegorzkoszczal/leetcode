@@ -937,3 +937,52 @@ class Solution:
 
         ans = helper(root)
         return ans[k - 1]
+
+
+"""
+1544. Make The String Great
+Topics: String, Stack
+"""
+
+
+class Solution:
+    def makeGood(self, s: str) -> str:
+        """
+        a, z, A, Z = "a", "z", "A", "Z"
+        print(f"a: {ord(a)}, z: {ord(z)}, A: {ord(A)}, Z: {ord(Z)}")
+        a: 97, z: 122, A: 65, Z: 90
+        """
+        stack = list()
+        ans = ""
+        for ch in s:
+            # lowercase on stack, uppercase in string
+            if (
+                stack
+                and ord(stack[-1]) in range(97, 123)
+                and ord(ch) in range(65, 91)
+                and stack[-1] == ch.lower()
+            ):
+                stack.pop()
+                ans = ans[:-1]
+            # uppercase on stack, lowercase in string
+            elif (
+                stack
+                and ord(stack[-1]) in range(65, 91)
+                and ord(ch) in range(97, 123)
+                and stack[-1] == ch.upper()
+            ):
+                stack.pop()
+                ans = ans[:-1]
+            else:
+                stack.append(ch)
+                ans += ch
+        return ans
+
+        # Similar, but cleaned-up solution
+        # stack = []
+        # for char in s:
+        #     if stack and abs(ord(stack[-1]) - ord(char)) == 32:
+        #         stack.pop()  # Remove the previous character
+        #     else:
+        #         stack.append(char)
+        # return ''.join(stack)
