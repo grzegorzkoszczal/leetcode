@@ -986,3 +986,34 @@ class Solution:
         #     else:
         #         stack.append(char)
         # return ''.join(stack)
+
+
+"""
+1249. Minimum Remove to Make Valid Parentheses
+Topics: String, Stack
+"""
+
+
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        count = 0
+        ans = list(s)
+
+        for i, ch in enumerate(ans):
+            if ch == "(":
+                count += 1
+            elif ch == ")":
+                if count == 0:
+                    ans[i] = "#"
+                else:
+                    count -= 1
+        ans.reverse()
+
+        for i, ch in enumerate(ans):
+            if count > 0 and ch == "(":
+                ans[i] = "#"
+                count -= 1
+        ans.reverse()
+
+        ans = "".join(x for x in ans if x != "#")
+        return ans
