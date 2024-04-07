@@ -1017,3 +1017,48 @@ class Solution:
 
         ans = "".join(x for x in ans if x != "#")
         return ans
+
+
+"""
+678. Valid Parenthesis String
+Topics: String, Dynamic Programming, Stack, Greedy
+"""
+
+
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        left_min, left_max = 0, 0
+        for i in s:
+            if i == "(":
+                left_min += 1
+                left_max += 1
+            elif i == ")":
+                left_min -= 1
+                left_max -= 1
+            else:
+                left_min -= 1
+                left_max += 1
+            if left_max < 0:
+                return False
+            if left_min < 0:
+                left_min = 0
+        return True if left_min == 0 else False
+
+
+"""
+9. Palindrome Number
+Topics: Math
+"""
+
+
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        s = str(x)
+        left, right = 0, len(s) - 1
+        while left <= right:
+            if s[left] == s[right]:
+                left += 1
+                right -= 1
+            else:
+                return False
+        return True
