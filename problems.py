@@ -1062,3 +1062,113 @@ class Solution:
             else:
                 return False
         return True
+
+
+"""
+35. Search Insert Position
+Topics: Array, Binary Search
+"""
+
+
+class Solution:
+    def searchInsert(self, nums: list[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            pivot = (left + right) // 2
+            if nums[pivot] == target:
+                return pivot
+            elif nums[pivot] < target:
+                left = pivot + 1
+            elif nums[pivot] > target:
+                right = pivot - 1
+        return left
+
+
+"""
+105. Construct Binary Tree from Preorder and Inorder Traversal
+Topics: Array, Hash Table, Divide and Conquer, Tree, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder or not inorder:
+            return None
+        root = TreeNode(preorder[0])
+        mid = inorder.index(preorder[0])
+        root.left = self.buildTree(preorder[1 : mid + 1], inorder[:mid])
+        root.right = self.buildTree(preorder[mid + 1 :], inorder[mid + 1 :])
+        return root
+
+
+"""
+102. Binary Tree Level Order Traversal
+Topics: Tree, Breadth-First Search, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
+        if not root:
+            return []
+
+        ans, temp, q = list(list()), list(), deque()
+        q.append(root)
+
+        while q:
+            for _ in range(len(q)):
+                curr = q.popleft()
+                temp.append(curr.val)
+                if curr.left:
+                    q.append(curr.left)
+                if curr.right:
+                    q.append(curr.right)
+            ans.append(temp)
+            temp = list()
+
+        return ans
+
+
+"""
+199. Binary Tree Right Side View
+Topics: Tree, Depth-First Search, Breadth-First Search, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> list[int]:
+        if not root:
+            return []
+
+        ans, temp, q = list(), list(), deque()
+        q.append(root)
+
+        while q:
+            for _ in range(len(q)):
+                curr = q.popleft()
+                temp.append(curr.val)
+                if curr.left:
+                    q.append(curr.left)
+                if curr.right:
+                    q.append(curr.right)
+            ans.append(temp[-1])
+            temp = list()
+        return ans
