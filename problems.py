@@ -1172,3 +1172,26 @@ class Solution:
             ans.append(temp[-1])
             temp = list()
         return ans
+
+
+"""
+1700. Number of Students Unable to Eat Lunch
+Topics: Array, Stack, Queue, Simulation
+"""
+
+
+class Solution:
+    def countStudents(self, students: list[int], sandwiches: list[int]) -> int:
+        # 0 - circular sandwich, 1 - square sandwich
+        students_q, sandwiches_q = deque(students.copy()), deque(sandwiches.copy())
+        breaker = len(students_q)
+        while students_q and breaker > 0:
+            if students_q[0] == sandwiches_q[0]:
+                students_q.popleft()
+                sandwiches_q.popleft()
+                breaker = len(students_q)
+            else:
+                temp = students_q.popleft()
+                students_q.append(temp)
+                breaker -= 1
+        return len(students_q)
