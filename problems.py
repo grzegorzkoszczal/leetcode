@@ -1097,7 +1097,7 @@ Topics: Array, Hash Table, Divide and Conquer, Tree, Binary Tree
 #         self.left = left
 #         self.right = right
 class Solution:
-    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+    def buildTree(self, preorder: list[int], inorder: list[int]) -> Optional[TreeNode]:
         if not preorder or not inorder:
             return None
         root = TreeNode(preorder[0])
@@ -1195,3 +1195,145 @@ class Solution:
                 students_q.append(temp)
                 breaker -= 1
         return len(students_q)
+
+
+"""
+112. Path Sum
+Topics: Tree, Depth-First Search, Breadth-First Search, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def helper(root, current_sum):
+            if not root:
+                return False
+
+            current_sum += root.val
+            if not root.left and not root.right:
+                return current_sum == targetSum
+
+            return helper(root.left, current_sum) or helper(root.right, current_sum)
+
+        return helper(root, current_sum=0)
+
+
+"""
+78. Subsets
+Topics: Array, Backtracking, Bit Manipulation
+"""
+
+
+class Solution:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
+        ans = list()
+        subset = list()
+
+        def backtracking(i):
+            if i >= len(nums):
+                ans.append(subset.copy())
+                return
+
+            # decision to include nums[i]
+            subset.append(nums[i])
+            backtracking(i + 1)
+
+            # decision to NOT include nums[i]
+            subset.pop()
+            backtracking(i + 1)
+
+        backtracking(0)
+        return ans
+
+
+"""
+39. Combination Sum
+Topics: Array, Backtracking
+"""
+
+
+class Solution:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+        ans = list()
+
+        def dfs(i, curr, total):
+            if total == target:
+                ans.append(curr.copy())
+                return
+
+            if total > target or i >= len(candidates):
+                return
+
+            curr.append(candidates[i])
+            dfs(i, curr, total + candidates[i])
+            curr.pop()
+            dfs(i + 1, curr, total)
+
+        dfs(0, [], 0)
+        return ans
+
+
+"""
+1025. Divisor Game
+Topics: Math, Dynamic Programming, Brainteaser, Game Theory
+"""
+
+
+class Solution:
+    def divisorGame(self, n: int) -> bool:
+        # 1. One-liner solution
+        # return n % 2 == 0
+
+        # 2. Dynamic Programming solution
+        # memory
+        dp = [False] * (n + 1)
+        # establish base case for n == 1
+        dp[0] = True
+        dp[1] = False
+        # visit every situation and update memory if make for winning move
+        for s in range(2, n + 1):
+            for f in range(1, s):
+                if dp[s - f] == False and s % f == 0:
+                    dp[s] = True
+        # return cumulative solution from memory
+        print(dp)
+        return dp[n]
+
+
+"""
+257. Binary Tree Paths
+Topics: String, Backtracking, Tree, Depth-First Search, Binary Tree
+"""
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> list[str]:
+        ans = list()
+
+        def dfs(node, path):
+            if node:
+                path = path + str(node.val) + "->"
+                # print(f"current node {node.val}")
+            if not node:
+                return [""]
+            if not node.left and not node.right:
+                ans.append(path[:-2])
+                return
+
+            dfs(node.left, path)
+            dfs(node.right, path)
+
+        dfs(root, "")
+        return ans
