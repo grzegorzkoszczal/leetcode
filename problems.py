@@ -1337,3 +1337,99 @@ class Solution:
 
         dfs(root, "")
         return ans
+
+
+"""
+401. Binary Watch
+Topics: Backtracking, Bit Manipulation
+"""
+
+
+class Solution:
+    def readBinaryWatch(self, turnedOn: int) -> list[str]:
+        ans = list()
+        led = [8, 4, 2, 1, 32, 16, 8, 4, 2, 1]
+
+        # how many digits are still on
+        def dfs(h, m, idx, n):
+            if h > 11 or m > 59:
+                return
+            if n == 0:
+                ans.append("{:d}:{:02d}".format(h, m))
+                return
+            for i in range(
+                idx, len(led)
+            ):  # <- right here, we can just iterate through the options we have
+                if i <= 3:
+                    dfs(h + led[i], m, i + 1, n - 1)
+                elif i < len(led):
+                    dfs(h, m + led[i], i + 1, n - 1)
+
+        dfs(0, 0, 0, turnedOn)
+        return ans
+
+
+"""
+2708. Maximum Strength of a Group
+Topics: Array, Backtracking, Greedy, Sorting
+"""
+
+
+class Solution:
+    def maxStrength(self, nums: list[int]) -> int:
+        curr_max = curr_min = nums[0]
+        for i in nums[1:]:
+            temp_max = max(i, curr_min * i, curr_max * i, curr_max)
+            curr_min = min(i, curr_min * i, curr_max * i, curr_min)
+            curr_max = temp_max
+        return curr_max
+
+
+"""
+797. All Paths From Source to Target
+Topics: Backtracking, Depth-First Search, Breadth-First Search, Graph
+"""
+
+
+class Solution:
+    def allPathsSourceTarget(self, graph: list[list[int]]) -> list[list[int]]:
+        ans = list()
+        end_node = len(graph) - 1
+        q = deque([[0]])
+
+        while q:
+            temp = q.popleft()
+            if temp[-1] == end_node:
+                ans.append(temp)
+            for neighbor in graph[temp[-1]]:
+                q.append(temp + [neighbor])
+        return ans
+
+
+"""
+2073. Time Needed to Buy Tickets
+Topics: Array, Queue, Simulation
+"""
+
+
+class Solution:
+    def timeRequiredToBuy(self, tickets: list[int], k: int) -> int:
+        q = deque(tickets.copy())
+        time = 0
+        while q:
+            # print(f"time: {time}, q: {q}, k: {k}")
+            q[0] -= 1
+            if q[0] == 0:
+                if k == 0:
+                    return time + 1
+                q.popleft()
+                k -= 1
+            else:
+                if k == 0:
+                    k = len(q) - 1
+                else:
+                    k -= 1
+                temp = q.popleft()
+                q.append(temp)
+            time += 1
+        return time
