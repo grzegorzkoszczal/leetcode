@@ -1433,3 +1433,17 @@ class Solution:
                 q.append(temp)
             time += 1
         return time
+
+
+"""
+2000. Reverse Prefix of Word
+Topics: Two Pointers, String
+"""
+
+
+class Solution:
+    def reversePrefix(self, word: str, ch: str) -> str:
+        for i, c in enumerate(word):
+            if c == ch:
+                return word[i::-1] + word[i + 1 : :]
+        return word
