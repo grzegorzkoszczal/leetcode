@@ -1447,3 +1447,26 @@ class Solution:
             if c == ch:
                 return word[i::-1] + word[i + 1 : :]
         return word
+
+
+"""
+950. Reveal Cards In Increasing Order
+Topics: Array, Queue, Sorting, Simulation
+"""
+
+
+class Solution:
+    def deckRevealedIncreasing(self, deck: list[int]) -> list[int]:
+        deck.sort()
+
+        size = len(deck)
+        ans = [0] * size
+        indices = deque(range(size))
+
+        for card in deck:
+            idx = indices.popleft()
+            ans[idx] = card
+            if indices:
+                indices.append(indices.popleft())
+
+        return ans
