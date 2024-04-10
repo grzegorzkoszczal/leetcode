@@ -79,34 +79,29 @@ class BinaryTree:
             return None
 
 
-bt = BinaryTree()
-bt.start(69)
-bt.build_left(data=4)
+class MinHeap:
+    """
+    Purpose:
+    Creates a heap/priority queue. It can be represented as
+    a complete binary tree, where smallest value is the root and each
+    descendant of a parent node is greater or equal to the parent.
+
+    Input:
 
 
-# LL1 = LinkedListNode(val=1)
-# LL2 = LinkedListNode(val=2)
-# LL3 = LinkedListNode(val=3)
-# LL1.next = LL2
-# LL2.next = LL3
-
-# curr = LL1
-# while curr is not None:
-#     print(curr.val)
-#     curr = curr.next
+    Output:
 
 
-# x = LinkedList()
-# # curr = x.head
-# # while curr is not None:
-# #     print(curr.val)
-# #     curr = curr.next
-# # x.build(data=[1,2,3,4])
-# for i in [1, 2, 3, 4, 5]:
-#     x.build(data=i)
+    """
 
-# print(x.head.val)
-# y = x.head.next
-# print(y.val)
-# z = y.next.next
-# print(z.val)
+    MinHeap: TypeAlias = list
+
+    def __init__(self, storage: list = [0]) -> Optional[MinHeap]:
+        self.storage = storage
+
+    def add(self, val: int) -> None:
+        self.storage.append(val)
+        return self.storage
+
+    def show(self) -> Optional[MinHeap]:
+        print(self.storage)
