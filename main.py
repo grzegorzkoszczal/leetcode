@@ -1,3 +1,5 @@
+import random
+
 import algorithms
 import data_structures
 
@@ -7,11 +9,13 @@ import data_structures
 
 
 def main():
+    temp = ["MinHeap"]
     min_heap = data_structures.MinHeap()
-    min_heap.add(5)
-    min_heap.add(7)
-    min_heap.add(9)
-    min_heap.add(3)
+    for _ in range(20):
+        val = random.randint(1, 50)
+        temp.append(val)
+        min_heap.add(val)
+    print(f"Initial list: {temp}")
     min_heap.show()
 
 

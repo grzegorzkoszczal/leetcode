@@ -96,12 +96,40 @@ class MinHeap:
 
     MinHeap: TypeAlias = list
 
-    def __init__(self, storage: list = [0]) -> Optional[MinHeap]:
+    def __init__(self, storage: list = ["MinHeap"]) -> Optional[MinHeap]:
         self.storage = storage
+        self.last_index = 0
 
     def add(self, val: int) -> None:
         self.storage.append(val)
+        self.last_index += 1
+
+        child_idx = self.last_index
+        parent_idx = child_idx // 2
+
+        while True:
+            child_val = self.storage[child_idx]
+            parent_val = self.storage[parent_idx]
+
+            if parent_val == "MinHeap":
+                break
+
+            elif child_val < parent_val: # "<": MinHeap, ">": MaxHeap
+                child_val, parent_val = parent_val, child_val
+
+                self.storage[child_idx] = child_val
+                self.storage[parent_idx] = parent_val
+
+                child_idx = parent_idx
+                parent_idx = parent_idx // 2
+            else:
+                break
+
         return self.storage
 
     def show(self) -> Optional[MinHeap]:
-        print(self.storage)
+        print(f"MinHeap storage list: {self.storage}")
+        if self.storage[1]:
+            print(f"Min value: {self.storage[1]}")
+        else:
+            print("MinHeap is empty")
