@@ -1499,3 +1499,64 @@ class KthLargest:
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
+
+"""
+496. Next Greater Element I
+Topics: Array, Hash Table, Stack, Monotonic Stack
+"""
+class Solution:
+    def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        ans = [-1] * len(nums1)
+
+        d = dict()
+        left, right = 0, 1
+        while left <= right and right < len(nums2):
+            if nums2[left] < nums2[right]:
+                d[nums2[left]] = nums2[right]
+                left += 1
+                right = left + 1
+            elif right == len(nums2)-1:
+                d[nums2[left]] = -1
+                left += 1
+                right = left + 1
+            else:
+                right += 1
+
+        for i, v in enumerate(nums1):
+            if v in d.keys():
+                ans[i] = d[v]
+
+        return ans
+    
+"""
+1475. Final Prices With a Special Discount in a Shop
+Topics: Array, Stack, Monotonic Stack
+"""
+class Solution:
+    def finalPrices(self, prices: list[int]) -> list[int]:
+        mono_stack = list()
+        for i in range(len(prices)):
+            while mono_stack and (prices[mono_stack[-1]] >= prices[i]):
+                prices[mono_stack.pop()] -= prices[i]
+            mono_stack.append(i)
+        return prices
+    
+"""
+402. Remove K Digits
+Topics: String, Stack, Greedy, Monotonic Stack
+"""
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        mono = list()
+
+        for i in num:
+            while mono and mono[-1] > i and k > 0:
+                mono.pop()
+                k -= 1
+            mono.append(i)
+
+        if k > 0:
+            mono = mono[:-k]
+
+        ans = "".join(mono).lstrip("0")
+        return ans if ans else "0"
