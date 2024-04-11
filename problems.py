@@ -1560,3 +1560,29 @@ class Solution:
 
         ans = "".join(mono).lstrip("0")
         return ans if ans else "0"
+    
+"""
+1046. Last Stone Weight
+Topics: Array, Heap (Priority Queue)
+"""
+class Solution:
+    def lastStoneWeight(self, stones: list[int]) -> int:
+        stones = [-1 * x for x in stones]
+        heapq.heapify(stones)
+        while len(stones) > 1:
+            heapq.heappush(stones, -abs(heapq.heappop(stones) - heapq.heappop(stones)))
+        return -1 * stones[0] if stones else 0
+
+"""
+973. K Closest Points to Origin
+Topics: Array, Math, Divide and Conquer, Geometry, Sorting, Heap (Priority Queue), Quickselect
+"""
+class Solution:
+    def kClosest(self, points: list[list[int]], k: int) -> list[list[int]]:
+        for i in range(len(points)):
+            dist = pow(points[i][0], 2) + pow(points[i][1], 2)
+            points[i].append(dist)
+        points.sort(key=lambda x: x[2])
+        ans = [[points[i][0], points[i][1]] for i in range(k)]
+
+        return ans
