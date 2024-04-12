@@ -1586,3 +1586,23 @@ class Solution:
         ans = [[points[i][0], points[i][1]] for i in range(k)]
 
         return ans
+    
+"""
+42. Trapping Rain Water
+Topics: Array, Two Pointers, Dynamic Programming, Stack, Monotonic Stack
+"""
+class Solution:
+    def trap(self, height: list[int]) -> int:
+        left, right = 0, len(height)-1
+        left_max, right_max = height[0], height[right]
+        ans = 0
+        while left < right:
+            if left_max <= right_max:
+                ans += left_max - height[left]
+                left += 1
+                left_max = max(left_max, height[left])
+            else:
+                ans += right_max - height[right]
+                right -= 1
+                right_max = max(right_max, height[right])
+        return ans
