@@ -1606,3 +1606,29 @@ class Solution:
                 right -= 1
                 right_max = max(right_max, height[right])
         return ans
+
+"""
+217. Contains Duplicate
+Topics: Array, Hash Table, Sorting
+"""
+class Solution:
+    def containsDuplicate(self, nums: list[int]) -> bool:
+        s = set()
+        for i in nums:
+            if i not in s:
+                s.add(i)
+            else:
+                return True
+        return False
+    
+"""
+1. Two Sum
+Topics: Array, Hash Table
+"""
+class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        d = dict()
+        for i, v in enumerate(nums):
+            if (target - v) in d:
+                return [i, d[target - v]]
+            d[v] = i
