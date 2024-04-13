@@ -1632,3 +1632,85 @@ class Solution:
             if (target - v) in d:
                 return [i, d[target - v]]
             d[v] = i
+
+"""
+85. Maximal Rectangle
+Topics: Array, Dynamic Programming, Stack, Matrix, Monotonic Stack
+"""
+class Solution:
+    def maximalRectangle(self, matrix: list[list[str]]) -> int:
+        ROWS, COLS = len(matrix), len(matrix[0])
+        dp = dict()
+        ans = 0
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if matrix[r][c] == "0":
+                    dp[(r, c)] = (0, 0)
+                else:
+                    x = dp[r, c-1][0]+1 if c > 0 else 1
+                    y = dp[r-1, c][1]+1 if r > 0 else 1
+                    dp[(r, c)] = (x, y)
+                    ans = max(x, y, ans)
+                    min_width = x
+                    for i in range(r-1, r-y, -1):
+                        min_width = min(min_width, dp[(i, c)][0])
+                        ans = max(ans, min_width * (r-i+1))
+        return ans
+
+"""
+146. LRU Cache
+Topics: Hash Table, Linked List, Design, Doubly-Linked List
+"""
+class LinkedListNode:
+    def __init__(self, key=0, val=0, prev=None, next=None):
+        self.key = key
+        self.val = val
+        self.prev = prev
+        self.next = next
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = dict()
+        self.head = LinkedListNode(key=None, val="head", prev=None, next=None)
+        self.tail = LinkedListNode(key=None, val="tail", prev=None, next=None)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def insert(self, node):
+        temp = self.tail.prev
+        self.tail.prev = node
+        node.next = self.tail
+        node.prev = temp
+        temp.next = node
+
+    def delete(self, node):
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache.keys():
+            self.delete(self.cache[key])
+        self.cache[key] = LinkedListNode(key=key, val=value)
+        self.insert(self.cache[key])
+
+        if len(self.cache) > self.capacity:
+            lru = self.head.next
+            self.delete(lru)
+            del self.cache[lru.key]
+
+    def get(self, key: int) -> int:
+        if key in self.cache.keys():
+            self.delete(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].val
+        else:
+            return -1 
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
