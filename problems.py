@@ -1714,3 +1714,28 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+        
+        
+"""
+404. Sum of Left Leaves
+Topics: Tree, Depth-First Search, Breadth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        def dfs(root):
+            if not root:
+                return 0
+            left = dfs(root.left)
+            right = dfs(root.right)
+
+            if root.left and not root.left.left and not root.left.right:
+                left += root.left.val
+            return left + right
+
+        return dfs(root)
