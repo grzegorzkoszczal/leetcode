@@ -1739,3 +1739,35 @@ class Solution:
             return left + right
 
         return dfs(root)
+    
+"""
+129. Sum Root to Leaf Numbers
+Topics: Tree, Depth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        cache, stack, ans = list(), str(), int()
+        def dfs(root, stack, cache):
+            if root:
+                stack += str(root.val)
+            if root and not root.left and not root.right:
+                cache.append(stack)
+                stack = stack[:-1]
+            if not root:
+                return None
+
+            left = dfs(root.left, stack, cache)
+            right = dfs(root.right, stack, cache)
+            return left, right
+
+        dfs(root, stack, cache)
+        for i in cache:
+            ans += int(i)
+
+        return ans
