@@ -1714,3 +1714,34 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+"""
+623. Add One Row to Tree
+Topics: Tree, Depth-First Search, Breadth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
+        if depth == 1:
+            return TreeNode(val=val, left=root, right=None)
+
+        queue = deque([root])
+        while queue:
+            depth -= 1
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                if depth == 1:
+                    node.left = TreeNode(val, left=node.left, right=None)
+                    node.right = TreeNode(val, left=None, right=node.right)
+            if depth == 1:
+                break
+        return root
