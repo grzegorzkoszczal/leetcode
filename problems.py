@@ -1888,3 +1888,38 @@ class MyHashMap:
 # obj.put(key,value)
 # param_2 = obj.get(key)
 # obj.remove(key)
+                    
+"""
+988. Smallest String Starting From Leaf
+Topics: String, Tree, Depth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+        temp, ans = str(), list()
+        def dfs(root, temp, ans):
+            if not root:
+                return None
+            if root:
+                current_char = chr(ord("a") + root.val)
+                temp += current_char
+            if root and not root.left and not root.right:
+                path = temp[::-1]
+                if not ans:
+                    ans.append(path)
+                else:
+                    old, new = ans[0], path
+                    if new < old:
+                        ans[0] = new
+
+            left = dfs(root.left, temp, ans)
+            right = dfs(root.right, temp, ans)
+            return left, right
+
+        dfs(root, temp, ans)
+        return ans[0]
