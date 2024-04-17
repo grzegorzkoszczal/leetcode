@@ -1923,3 +1923,56 @@ class Solution:
 
         dfs(root, temp, ans)
         return ans[0]
+
+"""
+1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+Topics: Tree, Depth-First Search, Breadth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        ans = list()
+        def dfs(root, target, ans):
+            if not root:
+                return
+            if root.val == target.val:
+                ans.append(root)
+                return
+
+            left = dfs(root.left, target, ans)
+            right = dfs(root.right, target, ans)
+            return left, right
+
+        dfs(cloned, target, ans)
+        return ans[0]
+    
+"""
+563. Binary Tree Tilt
+Topics: Tree, Depth-First Search, Binary Tree
+"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findTilt(self, root: Optional[TreeNode]) -> int:
+        self.ans = 0
+        def dfs(root):
+            if not root:
+                return 0
+
+            left = dfs(root.left)
+            right = dfs(root.right)
+            self.ans += abs(left - right)
+            return root.val + left + right
+
+        dfs(root)
+        return self.ans
