@@ -1802,3 +1802,89 @@ class Solution:
             if depth == 1:
                 break
         return root
+    
+"""
+705. Design HashSet
+Topics: Array, Hash Table, Linked List, Design, Hash Function
+"""
+class MyHashSet:
+    def __init__(self):
+        self.storage = [0 for _ in range(1000001)]
+
+    def add(self, key: int) -> None:
+        if self.storage[key] == 0:
+            self.storage[key] = 1
+
+    def remove(self, key: int) -> None:
+        if self.storage[key] == 1:
+            self.storage[key] = 0
+
+    def contains(self, key: int) -> bool:
+        return True if self.storage[key] == 1 else False
+
+# Your MyHashSet object will be instantiated and called as such:
+# obj = MyHashSet()
+# obj.add(key)
+# obj.remove(key)
+# param_3 = obj.contains(key)
+    
+"""
+706. Design HashMap
+Topics: Array, Hash Table, Linked List, Design, Hash Function
+"""
+class Node:
+    def __init__(self, key=None, value=None, next=None):
+        self.key = key
+        self.value = value
+        self.next = next
+
+class MyHashMap:
+    def __init__(self):
+        self.size = 1000
+        self.hash_table = [None] * self.size
+
+    def put(self, key: int, value: int) -> None:
+        index = key % self.size
+        if self.hash_table[index] == None:
+            self.hash_table[index] = Node(key, value)
+        else:
+            curr_node = self.hash_table[index]
+            while True:
+                if curr_node.key == key:
+                    curr_node.value = value
+                    return
+                if curr_node.next == None: break
+                curr_node = curr_node.next
+            curr_node.next = Node(key, value)
+
+    def get(self, key: int) -> int:
+        index = key % self.size
+        curr_node = self.hash_table[index]
+        while curr_node:
+            if curr_node.key == key:
+                return curr_node.value
+            else:
+                curr_node = curr_node.next
+        return -1
+
+    def remove(self, key: int) -> None:
+        index = key % self.size
+        curr_node = prev_node = self.hash_table[index]
+        if not curr_node: return
+        if curr_node.key == key:
+            self.hash_table[index] = curr_node.next
+        else:
+            curr_node = curr_node.next
+            while curr_node:
+                if curr_node.key == key:
+                    prev_node.next = curr_node.next
+                    break
+                else:
+                    prev_node, curr_node = prev_node.next, curr_node.next
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
