@@ -1976,3 +1976,32 @@ class Solution:
 
         dfs(root)
         return self.ans
+    
+"""
+463. Island Perimeter
+Topics: Array, Depth-First Search, Breadth-First Search, Matrix
+"""
+class Solution:
+    def islandPerimeter(self, grid: list[list[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        visited, ans = set(), 0
+
+        def dfs(r, c):
+            if (not r in range(ROWS) or
+                not c in range(COLS) or
+                grid[r][c] == 0):
+                return 1
+            if (r, c) in visited:
+                return 0
+
+            visited.add((r, c))
+            ans = dfs(r +1, c)
+            ans += dfs(r -1, c)
+            ans += dfs(r, c +1)
+            ans += dfs(r, c -1) 
+            return ans
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if grid[r][c]:
+                    return dfs(r, c)
