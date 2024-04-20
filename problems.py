@@ -2005,3 +2005,31 @@ class Solution:
             for c in range(COLS):
                 if grid[r][c]:
                     return dfs(r, c)
+                
+"""
+1992. Find All Groups of Farmland
+Topics: Array, Depth-First Search, Breadth-First Search, Matrix
+"""
+class Solution:
+    def findFarmland(self, land: list[list[int]]) -> list[list[int]]:
+        ROWS, COLS, ans = len(land), len(land[0]), list()
+
+        def dfs(r: int, c: int) -> tuple[int, int]:
+            if (r not in range(ROWS) or
+                c not in range(COLS) or
+                land[r][c] == 0):
+                return (0, 0)
+
+            land[r][c] = 0
+            end_row1, end_col1 = dfs(r, c+1) # right
+            end_row2, end_col2 = dfs(r+1, c) # bot
+            end_row = max(end_row1, end_row2, r)
+            end_col = max(end_col1, end_col2, c)
+            return (end_row, end_col)
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if land[r][c] == 1:
+                    x, y = dfs(r, c)
+                    ans.append([r, c, x, y])
+        return ans
