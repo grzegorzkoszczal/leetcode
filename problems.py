@@ -2033,3 +2033,27 @@ class Solution:
                     x, y = dfs(r, c)
                     ans.append([r, c, x, y])
         return ans
+
+"""
+1971. Find if Path Exists in Graph
+Topics: Depth-First Search, Breadth-First Search, Union Find, Graph
+"""
+class Solution:
+    def validPath(self, n: int, edges: list[list[int]], source: int, destination: int) -> bool:
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        
+        def dfs(node, visited):
+            if node == destination:
+                return True
+            visited.add(node)
+            for neighbor in graph[node]:
+                if neighbor not in visited:
+                    if dfs(neighbor, visited):
+                        return True
+            return False
+        
+        visited = set()
+        return dfs(source, visited)
