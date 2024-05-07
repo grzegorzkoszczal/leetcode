@@ -2130,3 +2130,72 @@ class Solution:
                     temp_size = bfs(r, c)
                     ans = max(ans, temp_size)
         return ans
+    
+"""
+1091. Shortest Path in Binary Matrix
+Topics: Array, Breadth-First Search, Matrix
+"""
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: list[list[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        if grid[0][0] or grid[ROWS-1][COLS-1] == 1:
+            return -1
+
+        def bfs(r, c, length):
+            directions = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]]
+            visited = set((0, 0))
+            q = deque()
+            q.append([r, c, length])
+
+            while q:
+                r, c, length = q.popleft()
+                if (r not in range(ROWS) or
+                    c not in range(COLS) or
+                    grid[r][c]):
+                    continue
+                if r == ROWS-1 and c == COLS-1:
+                    return length
+                for dr, dc in directions:
+                    if (r + dr, c + dc) not in visited:
+                        q.append((r + dr, c + dc, length + 1))
+                        visited.add((r + dr, c + dc))
+            return -1
+        return bfs(0, 0, 1)
+
+"""
+994. Rotting Oranges
+Topics: Array, Breadth-First Search, Matrix
+"""
+class Solution:
+    def orangesRotting(self, grid: list[list[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+
+        def bfs(r, c):
+            directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+            time, fresh = 0, 0
+            q = deque()
+
+            # initializing the positions of rotten oranges
+            for r in range(ROWS):
+                for c in range(COLS):
+                    if grid[r][c] == 1:
+                        fresh += 1
+                    if grid[r][c] == 2:
+                        q.append([r, c])
+
+            while q and fresh > 0:
+                for _ in range(len(q)):
+                    r, c = q.popleft()
+                    
+                    for dr, dc in directions:
+                        row, col = r+dr, c+dc
+                        if (row not in range(ROWS) or
+                            col not in range(COLS) or
+                            grid[row][col] != 1):
+                            continue
+                        grid[row][col] = 2
+                        q.append([row, col])
+                        fresh -= 1
+                time += 1
+            return time if fresh == 0 else -1
+        return bfs(0, 0)
