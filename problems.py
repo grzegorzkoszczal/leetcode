@@ -1,3 +1,4 @@
+import sys
 import math
 import heapq
 from heapq import *
@@ -2199,3 +2200,46 @@ class Solution:
                 time += 1
             return time if fresh == 0 else -1
         return bfs(0, 0)
+
+"""
+2816. Double a Number Represented as a Linked List
+Topics: Linked List, Math, Stack
+"""
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+# Work-around solution
+sys.set_int_max_str_digits(100000)
+class Solution:
+    def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        number_as_string = str()
+        while head:
+            number_as_string += str(head.val)
+            head = head.next
+        doubled = str(int(number_as_string) * 2)
+
+        temp = ListNode(val="", next=None)
+        _head = ListNode(val="", next=temp)
+
+        for i in doubled:
+            curr = ListNode(val=i, next=None)
+            temp.next = curr
+            temp = temp.next
+
+        return _head.next.next
+
+    # Good solution
+    def doubleIt(self, head):
+        curr = head 
+        if curr.val > 4: 
+            head = ListNode(1, head) 
+            # ans = ListNode(1, head)
+        while curr.next: 
+            curr.val = (curr.val * 2 + (curr.next.val > 4)) % 10
+            curr = curr.next 
+        curr.val = (curr.val * 2) % 10
+
+        return head
