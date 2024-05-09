@@ -55,3 +55,51 @@ Start working on the database:
 ```
 psql <database_name>
 ```
+
+Creating a new table:
+
+```
+CREATE TABLE weather (
+    city            varchar(80),
+    temp_lo         int,           -- low temperature
+    temp_hi         int,           -- high temperature
+    prcp            real,          -- precipitation
+    date            date
+);
+```
+
+Removing table:
+
+```
+DROP TABLE tablename;
+```
+
+Populating a table with rows:
+(This approach requires You to remember the order of the columns)
+
+```
+INSERT INTO weather VALUES ('San Francisco', 46, 50, 0.25, '1994-11-27');
+```
+
+An alternative syntax allows you to list the columns explicitly:
+
+```
+INSERT INTO weather (city, temp_lo, temp_hi, prcp, date)
+    VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29');
+```
+
+In order to copy large amount of data from flat-text files, it is advised to use COPY command, because of the optimization its faster than INSERT
+
+```
+COPY weather FROM '/home/user/weather.txt';
+```
+
+#### Querying a table
+
+To retrieve data from a table, the table is queried. An SQL SELECT statement is used to do this.
+
+Retrieving all the rows of table weather:
+
+```
+SELECT * FROM weather;
+```
