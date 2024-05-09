@@ -32,9 +32,26 @@ Collection of databases managed by a single PostgreSQL server instance constitut
 
 ### Commands
 
-Creating database:
+Change user to postgres in order to work on database
 
 ```
 sudo su postgres
+```
+
+Creating database:
+
+```
 createdb <database_name>
+```
+
+Deleting database:
+
+```
+dropdb <database_name>
+```
+
+Start working on the database:
+
+```
+psql <database_name>
 ```
