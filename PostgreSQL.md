@@ -97,9 +97,50 @@ COPY weather FROM '/home/user/weather.txt';
 #### Querying a table
 
 To retrieve data from a table, the table is queried. An SQL SELECT statement is used to do this.
-
 Retrieving all the rows of table weather:
 
 ```
 SELECT * FROM weather;
 ```
+
+Here * is a shorthand for “all columns”. So the same result would be had with:
+
+```
+SELECT city, temp_lo, temp_hi, prcp, date FROM weather;
+```
+
+Writing expressions in the select list:
+
+```
+SELECT city, (temp_hi+temp_lo)/2 AS temp_avg, date FROM weather;
+```
+
+A query can be “qualified” by adding a WHERE clause that specifies which rows are wanted. The WHERE clause contains a Boolean (truth value) expression, and only rows for which the Boolean expression is true are returned. The usual Boolean operators (AND, OR, and NOT) are allowed in the qualification.
+
+```
+SELECT * FROM weather
+    WHERE city = 'San Francisco' AND prcp > 0.0;
+```
+
+Return of a query in sorted order:
+
+```
+SELECT * FROM weather
+    ORDER BY city, temp_lo;
+```
+
+Remove of duplicates:
+
+```
+SELECT DISTINCT city
+    FROM weather;
+```
+
+You can join DISTINCT and ORDER BY together:
+
+```
+SELECT DISTINCT city
+    FROM weather
+    ORDER BY city;
+```
+
