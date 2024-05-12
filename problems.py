@@ -2243,3 +2243,25 @@ class Solution:
         curr.val = (curr.val * 2) % 10
 
         return head
+    
+"""
+2373. Largest Local Values in a Matrix
+Topics: Array, Matrix
+"""
+class Solution:
+    def max_filter(self, r: int, c: int, grid: list[list[int]]) -> int:
+        return  max(grid[r-1][c-1],grid[r-1][c], grid[r-1][c+1],
+                    grid[r][c-1],grid[r][c], grid[r][c+1],
+                    grid[r+1][c-1],grid[r+1][c], grid[r+1][c+1])
+
+    def largestLocal(self, grid: list[list[int]]) -> list[list[int]]:
+        n = len(grid[0])
+        ans, temp = [], []
+        for r in range(1, n-1):
+            for c in range(1, n-1):
+                max_filter_val = self.max_filter(r, c, grid)
+                temp.append(max_filter_val)
+            ans.append(temp)
+            temp = []
+
+        return ans
